@@ -1,0 +1,19 @@
+button[role="combobox"] {
+  .target-icon {
+    display: none;
+  }
+
+  &[data-placeholder] {
+    .target-icon {
+      display: initial;
+    }
+  }
+}
+
+.target-icon {
+  flex-shrink: 0;
+}
+
+.lucide.lucide-chevron-down {
+  margin-left: auto;
+}
