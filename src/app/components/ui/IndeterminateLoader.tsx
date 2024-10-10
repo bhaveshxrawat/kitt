@@ -1,3 +1,4 @@
+import "./IndeterminateLoader.css";
 const IndeterminateLoader = ({ cn }: { cn?: string }) => {
   return (
     <div

@@ -1,8 +1,11 @@
-const fetchData = (delay: number) => {
+import { delayTime } from "@/consts";
+
+const fetchData = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
+      console.log("fetched data");
       resolve("Fetched Data");
-    }, delay);
+    }, delayTime);
   });
 };
 

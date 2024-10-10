@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import "@/styles/search.css";
+import "./SearchForm.css";
 import {
   Card,
   CardContent,
@@ -22,16 +22,24 @@ import data from "@/data.json";
 import { useRouter } from "next/navigation";
 import { useUserData } from "@/providers/UserDataProvider";
 
-const SearchForm = () => {
+const SearchForm = ({
+  cn,
+  cardHeader,
+}: {
+  cn: string;
+  cardHeader: boolean;
+}) => {
   const router = useRouter();
   const { whereFrom, setWhereFrom, whereTo, setWhereTo } = useUserData();
   return (
-    <Card className="py-6 px-7 shadow-md border-[#E6E8EB] border">
-      <CardHeader className="p-0 mb-6">
-        <span className="px-3 py-[0.625rem] font-medium leading-4 flex justify-center w-[127px] bg-[#F5F7FA] rounded-md">
-          Flights
-        </span>
-      </CardHeader>
+    <Card className={cn}>
+      {cardHeader && (
+        <CardHeader className="p-0 mb-6">
+          <span className="px-3 py-[0.625rem] font-medium leading-4 flex justify-center w-[127px] bg-[#F5F7FA] rounded-md">
+            Flights
+          </span>
+        </CardHeader>
+      )}
       <CardContent className="p-0 h-[3.75rem] flex gap-6">
         <div className="flex flex-1 gap-3">
           <Select value={whereFrom} onValueChange={setWhereFrom}>

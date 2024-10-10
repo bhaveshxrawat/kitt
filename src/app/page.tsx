@@ -7,7 +7,10 @@ export default function Home() {
         Good afternoon, Brian
       </header>
       <main>
-        <SearchForm />
+        <SearchForm
+          cn="py-6 px-7 shadow-md border-[#E6E8EB] border"
+          cardHeader={true}
+        />
       </main>
     </div>
   );

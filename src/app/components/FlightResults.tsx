@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import "@/styles/flightresults.css";
+import "./FlightResults.css";
 import Image from "next/image";
 
 const FlightResults = () => {

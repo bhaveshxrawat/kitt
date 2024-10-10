@@ -1,4 +1,3 @@
-import "@/styles/indLoader.css";
 import SkeletonCard from "./SkeletonCard";
 import ResultDeterminateLoader from "../Result.DeterminateLoader";
 import IndeterminateLoader from "./IndeterminateLoader";

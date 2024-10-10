@@ -1,5 +1,5 @@
 "use client";
-import "@/styles/rsl.css";
+import "./Result.DeterminateLoader.css";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import { useEffect, useState } from "react";

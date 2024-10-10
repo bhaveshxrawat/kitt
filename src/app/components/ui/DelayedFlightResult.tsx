@@ -1,9 +1,11 @@
 import { lazy } from "react";
-import { delayTime } from "@/consts";
 import fetchData from "@/utils/delay";
+import FlightResults from "../FlightResults";
 
-const DelayedFlightResults = lazy(() => {
-  return fetchData(delayTime).then(() => import("../FlightResults"));
-});
+const DelayedFlightResults = () => {
+  return fetchData().then(() => {
+    return <FlightResults />;
+  });
+};
 
 export default DelayedFlightResults;
