@@ -1,11 +1,10 @@
-// import fetchData from "@/utils/delay";
+import fetchData from "@/utils/delay";
 import { Button } from "@/components/ui/button";
 import "@/styles/flightresults.css";
 import Image from "next/image";
 
-const FlightResults = () => {
-  // return fetchData(8000).then(() => <div>FlightResults</div>);
-  return (
+const FlightResults = ({ delay }: { delay: number }) => {
+  return fetchData(delay).then(() => (
     <div className="pt-9 max-w-[75rem] mx-auto px-[4.5rem] max-h-[calc(100svh-7rem)] overflow-clip">
       <p className="tracking-wider text-[1.125rem] mb-6">
         Showing 356 of 767 results
@@ -312,7 +311,7 @@ const FlightResults = () => {
         </article>
       </div>
     </div>
-  );
+  ));
 };
 
 export default FlightResults;

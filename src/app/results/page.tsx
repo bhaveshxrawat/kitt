@@ -16,7 +16,7 @@ const page = () => {
       <SearchHeader />
       <main>
         <Suspense fallback={<ResultLoader waitTime={waitTime} />}>
-          <FlightResults />
+          <FlightResults delay={waitTime} />
         </Suspense>
       </main>
     </div>
