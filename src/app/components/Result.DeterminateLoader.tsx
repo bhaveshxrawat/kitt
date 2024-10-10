@@ -3,15 +3,10 @@ import "@/styles/rsl.css";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { delayTime } from "@/consts";
 
-const ResultDeterminateLoader = ({
-  cn,
-  waitTime,
-}: {
-  cn: string;
-  waitTime: number;
-}) => {
-  const interval = waitTime / 3;
+const ResultDeterminateLoader = ({ cn }: { cn: string }) => {
+  const interval = delayTime / 3;
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     const timer = setInterval(() => {

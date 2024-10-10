@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ResultLoader from "../components/ui/Result.LoaderSec";
 import SearchHeader from "../components/Search.Header";
 import { Suspense } from "react";
-import FlightResults from "../components/FlightResults";
+import DelayedFlightResults from "../components/ui/DelayedFlightResult";
 
 export const metadata: Metadata = {
   title: "Results",
@@ -10,13 +10,12 @@ export const metadata: Metadata = {
 };
 
 const page = () => {
-  const waitTime = 6000;
   return (
     <div>
       <SearchHeader />
       <main>
-        <Suspense fallback={<ResultLoader waitTime={waitTime} />}>
-          <FlightResults delay={waitTime} />
+        <Suspense fallback={<ResultLoader />}>
+          <DelayedFlightResults />
         </Suspense>
       </main>
     </div>
