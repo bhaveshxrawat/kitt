@@ -1,0 +1,23 @@
+.flight-results {
+  .flight-name {
+    @apply text-[13px] leading-[17.55px] tracking-[0.04em] text-[#787B80];
+  }
+  .timing,
+  .flight-duration,
+  .flight-break {
+    @apply text-[18px] leading-[18px] tracking-[0.02em];
+  }
+  .airport-info,
+  .flight-break-duration {
+    @apply text-[14px] leading-[19px] tracking-[0.04em] text-[#787B80];
+  }
+  .add-timing {
+    @apply font-medium text-[#962828F9] text-[12px] tracking-[0.04em] leading-[12px];
+  }
+  .flight-break-duration {
+    @apply whitespace-nowrap overflow-hidden text-ellipsis;
+  }
+  .flight-date {
+    @apply text-[#787B80] mb-2 font-medium text-[13px] leading-[17.55px] tracking-[0.05em];
+  }
+}

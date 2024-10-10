@@ -9,13 +9,12 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useUserData } from "@/providers/UserDataProvider";
 
 const SelectDate = () => {
   const todaysDate: Date = new Date(Date.now());
-  const [departureDt, setDepartureDt] = useState<Date>();
-  const [returnDt, setReturnDt] = useState<Date>();
+  const { departureDt, setDepartureDt, returnDt, setReturnDt } = useUserData();
   return (
     <div className="flex basis-[22.875rem] gap-3">
       <Popover>
@@ -29,9 +28,9 @@ const SelectDate = () => {
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {departureDt ? (
-              format(departureDt, "PPP")
+              format(departureDt, "P")
             ) : (
-              <span>Pick a date</span>
+              <span className="text-[#484A4D]">Departure</span>
             )}
           </Button>
         </PopoverTrigger>
@@ -40,7 +39,7 @@ const SelectDate = () => {
             fromDate={todaysDate}
             mode="single"
             selected={departureDt}
-            onSelect={setDepartureDt}
+            onSelect={(day) => setDepartureDt(day as Date)}
             initialFocus
           />
         </PopoverContent>
@@ -55,14 +54,18 @@ const SelectDate = () => {
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {returnDt ? format(returnDt, "PPP") : <span>Pick a date</span>}
+            {returnDt ? (
+              format(returnDt, "P")
+            ) : (
+              <span className="text-[#484A4D]">Return</span>
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
             selected={returnDt}
-            onSelect={setReturnDt}
+            onSelect={(day) => setReturnDt(day as Date)}
             initialFocus
           />
         </PopoverContent>
