@@ -3,13 +3,13 @@ import { createContext, useContext, useState } from "react";
 
 interface UserDataProviderProps {
   whereFrom: string | undefined;
-  setWhereFrom: React.Dispatch<React.SetStateAction<string>>;
+  setWhereFrom: React.Dispatch<React.SetStateAction<string | undefined>>;
   whereTo: string | undefined;
-  setWhereTo: React.Dispatch<React.SetStateAction<string>>;
+  setWhereTo: React.Dispatch<React.SetStateAction<string | undefined>>;
   departureDt: Date | undefined;
-  setDepartureDt: React.Dispatch<React.SetStateAction<Date>>;
+  setDepartureDt: React.Dispatch<React.SetStateAction<Date | undefined>>;
   returnDt: Date | undefined;
-  setReturnDt: React.Dispatch<React.SetStateAction<Date>>;
+  setReturnDt: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }
 
 const UserDataContext = createContext<UserDataProviderProps | undefined>(
@@ -23,8 +23,8 @@ export const UserDataProvider = ({
 }) => {
   const [whereFrom, setWhereFrom] = useState<string | undefined>();
   const [whereTo, setWhereTo] = useState<string | undefined>();
-  const [departureDt, setDepartureDt] = useState<Date>();
-  const [returnDt, setReturnDt] = useState<Date>();
+  const [departureDt, setDepartureDt] = useState<Date | undefined>();
+  const [returnDt, setReturnDt] = useState<Date | undefined>();
   return (
     <UserDataContext.Provider
       value={{

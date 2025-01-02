@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -8,6 +9,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { format } from "date-fns";
 import { ArrowRightLeft, Search, SearchIcon, X } from "lucide-react";
 import SelectDate from "../components/Search.Date";
 import data from "@/data.json";
@@ -24,8 +26,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import SearchForm from "./SearchForm";
+import { findAirportNamefromCode } from "@/utils";
+import { useUserData } from "@/providers/UserDataProvider";
 
 const SearchHeader = () => {
+  const { whereFrom, whereTo, departureDt, returnDt } = useUserData();
   return (
     <header className="py-7">
       <search className="max-w-[75rem] mx-auto px-[4.5rem]">
@@ -35,10 +40,10 @@ const SearchHeader = () => {
               <div className="cursor-pointer relative flex gap-4 justify-between items-center p-2 pl-6 rounded-[25px] basis-[41.375rem] max-w-[41.375rem] border border-[#E6E8EB]">
                 <p className="tracking-wider text-ellipsis basis-[12.5rem] whitespace-nowrap overflow-hidden">
                   <strong className="font-semibold text-ellipsis uppercase">
-                    CDG
+                    {whereFrom}
                   </strong>
                   &nbsp;
-                  <span>Paris Charles De Guale</span>
+                  <span>{findAirportNamefromCode(whereFrom)}</span>
                 </p>
                 <Separator
                   orientation="vertical"
@@ -46,17 +51,22 @@ const SearchHeader = () => {
                 />
                 <p className="tracking-wider text-ellipsis basis-[12.5rem] whitespace-nowrap overflow-hidden">
                   <strong className="font-semibold text-ellipsis uppercase">
-                    DXB
+                    {whereTo}
                   </strong>
                   &nbsp;
-                  <span>Dubai International Airport</span>
+                  <span>{findAirportNamefromCode(whereTo)}</span>
                 </p>
                 <Separator
                   orientation="vertical"
                   className="h-[26px] w-px bg-[#E6E8EB] shrink-0"
                 />
                 <strong className="font-semibold text-nowrap">
-                  Jun 25 - Jul 2
+                  {departureDt &&
+                    returnDt &&
+                    `${format(departureDt, "d MMM")} - ${format(
+                      returnDt,
+                      "d MMM"
+                    )}`}
                 </strong>
                 <Separator
                   orientation="vertical"

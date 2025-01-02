@@ -37,6 +37,7 @@ const SelectDate = () => {
         <PopoverContent className="w-auto p-0">
           <Calendar
             fromDate={todaysDate}
+            toDate={returnDt ?? undefined}
             mode="single"
             selected={departureDt}
             onSelect={(day) => setDepartureDt(day as Date)}
@@ -64,6 +65,7 @@ const SelectDate = () => {
         <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
+            fromDate={departureDt}
             selected={returnDt}
             onSelect={(day) => setReturnDt(day as Date)}
             initialFocus
