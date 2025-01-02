@@ -1,6 +1,5 @@
-"use server";
+"use client";
 
-import { lazy } from "react";
 import fetchData from "@/utils/delay";
 import FlightResults from "../FlightResults";
 
