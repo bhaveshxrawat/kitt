@@ -10,11 +10,27 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { useUserData } from "@/providers/UserDataProvider";
 
-const SelectDate = () => {
+interface SelectDateProps {
+  departureDate: Date | undefined;
+  returnDate: Date | undefined;
+  setterFn: <Key extends keyof FormStateProps>(
+    key: Key,
+    value: FormStateProps[Key]
+  ) => void;
+}
+
+const SelectDate: React.FC<SelectDateProps> = ({
+  departureDate,
+  returnDate,
+  setterFn,
+}) => {
   const todaysDate: Date = new Date(Date.now());
-  const { departureDt, setDepartureDt, returnDt, setReturnDt } = useUserData();
+  // Helper functions to set dates with correct key
+  const setDepartureDt = (day: Date | undefined) =>
+    setterFn("departureDt", day);
+  const setReturnDt = (day: Date | undefined) => setterFn("returnDt", day);
+
   return (
     <div className="flex basis-[22.875rem] gap-3">
       <Popover>
@@ -23,12 +39,12 @@ const SelectDate = () => {
             variant={"outline"}
             className={cn(
               "flex-1 justify-start text-left font-normal h-full text-base",
-              !departureDt && "text-muted-foreground"
+              !departureDate && "text-muted-foreground"
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {departureDt ? (
-              format(departureDt, "P")
+            {departureDate ? (
+              format(departureDate, "P")
             ) : (
               <span className="text-[#484A4D]">Departure</span>
             )}
@@ -37,9 +53,9 @@ const SelectDate = () => {
         <PopoverContent className="w-auto p-0">
           <Calendar
             fromDate={todaysDate}
-            toDate={returnDt ?? undefined}
+            toDate={returnDate ?? undefined}
             mode="single"
-            selected={departureDt}
+            selected={departureDate}
             onSelect={(day) => setDepartureDt(day as Date)}
             initialFocus
           />
@@ -51,12 +67,12 @@ const SelectDate = () => {
             variant={"outline"}
             className={cn(
               "flex-1 justify-start text-left font-normal h-full text-base",
-              !returnDt && "text-muted-foreground"
+              !returnDate && "text-muted-foreground"
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {returnDt ? (
-              format(returnDt, "P")
+            {returnDate ? (
+              format(returnDate, "P")
             ) : (
               <span className="text-[#484A4D]">Return</span>
             )}
@@ -65,8 +81,8 @@ const SelectDate = () => {
         <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
-            fromDate={departureDt}
-            selected={returnDt}
+            fromDate={departureDate}
+            selected={returnDate}
             onSelect={(day) => setReturnDt(day as Date)}
             initialFocus
           />

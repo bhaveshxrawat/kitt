@@ -1,5 +1,3 @@
-"use client";
-
 import fetchData from "@/utils/delay";
 import FlightResults from "../FlightResults";
 

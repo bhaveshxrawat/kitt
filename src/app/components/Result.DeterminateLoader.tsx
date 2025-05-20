@@ -7,22 +7,19 @@ import { delayTime } from "@/consts";
 
 const ResultDeterminateLoader = ({ cn }: { cn: string }) => {
   const interval = delayTime / 3;
-  const [progress, setProgress] = useState(0);
+  const [step, setStep] = useState(0);
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress >= 100) {
-          clearInterval(timer);
-          return 100;
-        }
-        const newProgress = oldProgress + 100 / 3;
-        return newProgress;
-      });
-    }, interval);
-    return () => {
-      clearInterval(timer);
+    const updateStep = async () => {
+      for (let i = 1; i <= 3; i++) {
+        await new Promise((resolve) => setTimeout(resolve, interval));
+        setStep(i);
+      }
     };
+
+    updateStep();
   }, [interval]);
+
   return (
     <Card className={`p-0 w-[20rem] h-[18.75rem] rounded-2xl ${cn}`}>
       <CardHeader className="p-0">
@@ -37,23 +34,19 @@ const ResultDeterminateLoader = ({ cn }: { cn: string }) => {
         </figure>
       </CardHeader>
       <CardContent className="rsl p-3 flex flex-col gap-6 text-[#C9CACC] text-[18px] tracking-wider line-height-[18px]">
-        <p
-          className={`${progress < 100 / 3 ? "isActive" : ""} ${
-            progress >= 100 / 3 ? "isDone" : ""
-          }`}
-        >
+        <p className={`${step < 1 && "isActive"} ${step >= 1 && "isDone"}`}>
           Searching 400+ flights
         </p>
         <p
-          className={`${
-            progress >= 100 / 3 && progress <= 2 * (100 / 3) ? "isActive" : ""
-          } ${progress > 2 * (100 / 3) ? "isDone" : ""}`}
+          className={`${step > 1 && step < 3 && "isActive"} ${
+            step >= 2 && "isDone"
+          }`}
         >
           Attaching company rules
         </p>
         <p
-          className={`${progress > 2 * (100 / 3) && "isActive"} ${
-            progress === 100 && "isDone"
+          className={`${step > 2 && step !== 3 && "isActive"} ${
+            step === 3 && "isDone"
           }`}
         >
           Serving best results

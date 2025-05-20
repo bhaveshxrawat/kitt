@@ -1,24 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectTrigger,
-  SelectValue,
-  SelectItem,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
-import { ArrowRightLeft, Search, SearchIcon, X } from "lucide-react";
-import SelectDate from "../components/Search.Date";
-import data from "@/data.json";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { SearchIcon, X } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -27,10 +11,15 @@ import {
 } from "@/components/ui/sheet";
 import SearchForm from "./SearchForm";
 import { findAirportNamefromCode } from "@/utils";
-import { useUserData } from "@/providers/UserDataProvider";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const SearchHeader = () => {
-  const { whereFrom, whereTo, departureDt, returnDt } = useUserData();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchParamsWhereFrom = searchParams.get("whereFrom");
+  const searchParamsWhereTo = searchParams.get("whereTo");
+  const searchParamsReturnDt = searchParams.get("returnDt");
+  const searchParamsDepartureDt = searchParams.get("departureDt");
   return (
     <header className="py-7">
       <search className="max-w-[75rem] mx-auto px-[4.5rem]">
@@ -40,10 +29,14 @@ const SearchHeader = () => {
               <div className="cursor-pointer relative flex gap-4 justify-between items-center p-2 pl-6 rounded-[25px] basis-[41.375rem] max-w-[41.375rem] border border-[#E6E8EB]">
                 <p className="tracking-wider text-ellipsis basis-[12.5rem] whitespace-nowrap overflow-hidden">
                   <strong className="font-semibold text-ellipsis uppercase">
-                    {whereFrom}
+                    {searchParamsWhereFrom}
                   </strong>
                   &nbsp;
-                  <span>{findAirportNamefromCode(whereFrom)}</span>
+                  <span>
+                    {findAirportNamefromCode(
+                      searchParamsWhereFrom ?? undefined
+                    )}
+                  </span>
                 </p>
                 <Separator
                   orientation="vertical"
@@ -51,20 +44,22 @@ const SearchHeader = () => {
                 />
                 <p className="tracking-wider text-ellipsis basis-[12.5rem] whitespace-nowrap overflow-hidden">
                   <strong className="font-semibold text-ellipsis uppercase">
-                    {whereTo}
+                    {searchParamsWhereTo}
                   </strong>
                   &nbsp;
-                  <span>{findAirportNamefromCode(whereTo)}</span>
+                  <span>
+                    {findAirportNamefromCode(searchParamsWhereTo ?? undefined)}
+                  </span>
                 </p>
                 <Separator
                   orientation="vertical"
                   className="h-[26px] w-px bg-[#E6E8EB] shrink-0"
                 />
                 <strong className="font-semibold text-nowrap">
-                  {departureDt &&
-                    returnDt &&
-                    `${format(departureDt, "d MMM")} - ${format(
-                      returnDt,
+                  {searchParamsDepartureDt &&
+                    searchParamsReturnDt &&
+                    `${format(searchParamsDepartureDt, "d MMM")} - ${format(
+                      searchParamsReturnDt,
                       "d MMM"
                     )}`}
                 </strong>
@@ -97,6 +92,7 @@ const SearchHeader = () => {
           <Button
             variant="outline"
             className="w-11 p-3 aspect-square border border-[#E6E8EB] rounded-full h-auto"
+            onClick={() => router.push("/")}
           >
             <X width={20} height={20} />
           </Button>

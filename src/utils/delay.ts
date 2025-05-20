@@ -1,10 +1,10 @@
 import { delayTime } from "@/consts";
 
-const fetchData = () => {
+const fetchData = (customDelay?: number) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve("Fetched Data");
-    }, delayTime);
+    }, customDelay ?? delayTime);
   });
 };
 

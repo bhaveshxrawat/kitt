@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import ResultLoader from "../components/ui/Result.LoaderSec";
 import SearchHeader from "../components/Search.Header";
 import { Suspense } from "react";
-import DelayedFlightResults from "../components/ui/DelayedFlightResult";
+import dynamic from "next/dynamic";
 
+const DelayedFlightResults = dynamic(
+  () => import("../components/ui/DelayedFlightResult"),
+  { ssr: false }
+);
 export const metadata: Metadata = {
   title: "Results",
   description: "Business Travel Reimagined",
@@ -14,6 +18,7 @@ const page = () => {
     <div>
       <SearchHeader />
       <main>
+        {/* <ResultLoader /> */}
         <Suspense fallback={<ResultLoader />}>
           <DelayedFlightResults />
         </Suspense>

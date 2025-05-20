@@ -19,8 +19,9 @@ import {
 import SelectDate from "@/app/components/Search.Date";
 import { ArrowRightLeft, Search } from "lucide-react";
 import data from "@/data.json";
-import { useRouter } from "next/navigation";
-import { useUserData } from "@/providers/UserDataProvider";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { formatDate } from "date-fns";
 
 const SearchForm = ({
   cn,
@@ -30,18 +31,31 @@ const SearchForm = ({
   cardHeader: boolean;
 }) => {
   const router = useRouter();
-  const {
-    whereFrom,
-    setWhereFrom,
-    whereTo,
-    setWhereTo,
-    departureDt,
-    returnDt,
-  } = useUserData();
+  const searchParams = useSearchParams();
+  const searchParamsWhereFrom = searchParams.get("whereFrom");
+  const searchParamsWhereTo = searchParams.get("whereTo");
+  const searchParamsReturnDt = searchParams.get("returnDt");
+  const searchParamsDepartureDt = searchParams.get("departureDt");
+  const initialFormState = {
+    whereFrom: searchParamsWhereFrom ? searchParamsWhereFrom : undefined,
+    whereTo: searchParamsWhereTo ? searchParamsWhereTo : undefined,
+    returnDt: searchParamsReturnDt ? new Date(searchParamsReturnDt) : undefined,
+    departureDt: searchParamsDepartureDt
+      ? new Date(searchParamsDepartureDt)
+      : undefined,
+  };
+  const [formData, setFormData] = useState<FormStateProps>(initialFormState);
+  const { whereTo, departureDt, returnDt, whereFrom } = formData;
+  function changeFormData<Key extends keyof FormStateProps>(
+    key: Key,
+    value: FormStateProps[Key]
+  ) {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  }
   function handleSwitch() {
     const temp = whereFrom;
-    setWhereFrom(whereTo);
-    setWhereTo(temp);
+    changeFormData("whereFrom", whereTo);
+    changeFormData("whereTo", temp);
   }
   const validationOK =
     whereFrom !== whereTo &&
@@ -52,7 +66,13 @@ const SearchForm = ({
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!validationOK) return;
-    router.push("/results");
+    if (departureDt && returnDt) {
+      router.push(
+        `/results?whereFrom=${whereFrom}&whereTo=${whereTo}` +
+          `&departureDt=${formatDate(departureDt, "yyyy-MM-dd")}` +
+          `&returnDt=${formatDate(returnDt, "yyyy-MM-dd")}`
+      );
+    }
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -68,7 +88,7 @@ const SearchForm = ({
           <div className="flex flex-1 gap-3">
             <Select
               value={whereFrom}
-              onValueChange={setWhereFrom}
+              onValueChange={(value) => changeFormData("whereFrom", value)}
               required={true}
             >
               <SelectTrigger className="text-base border border-[#E6E8EB] p-3 outline-none h-full focus:outline-none focus:border-[#000] justify-normal gap-[0.625rem]">
@@ -116,7 +136,11 @@ const SearchForm = ({
             >
               <ArrowRightLeft width={20} height={20} />
             </button>
-            <Select value={whereTo} onValueChange={setWhereTo} required={true}>
+            <Select
+              value={whereTo}
+              onValueChange={(value) => changeFormData("whereTo", value)}
+              required={true}
+            >
               <SelectTrigger className="text-base border border-[#E6E8EB] p-3 outline-none h-full focus:outline-none focus:border-[#000] justify-normal gap-[0.625rem]">
                 <svg
                   className="target-icon"
@@ -156,7 +180,11 @@ const SearchForm = ({
               </SelectContent>
             </Select>
           </div>
-          <SelectDate />
+          <SelectDate
+            departureDate={departureDt}
+            returnDate={returnDt}
+            setterFn={changeFormData}
+          />
         </CardContent>
         <CardFooter className="p-0 justify-end mt-9">
           <Button
