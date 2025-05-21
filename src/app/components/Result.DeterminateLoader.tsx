@@ -4,8 +4,9 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { delayTime } from "@/consts";
+import { cn as prettifyClassNames } from "@/lib/utils";
 
-const ResultDeterminateLoader = ({ cn }: { cn: string }) => {
+const ResultDeterminateLoader = ({ cn }: { cn?: string }) => {
   const interval = delayTime / 3;
   const [step, setStep] = useState(0);
 
@@ -34,20 +35,24 @@ const ResultDeterminateLoader = ({ cn }: { cn: string }) => {
         </figure>
       </CardHeader>
       <CardContent className="rsl p-3 flex flex-col gap-6 text-[#C9CACC] text-[18px] tracking-wider line-height-[18px]">
-        <p className={`${step < 1 && "isActive"} ${step >= 1 && "isDone"}`}>
+        <p
+          className={prettifyClassNames(
+            `${step === 0 ? "isActive" : ""} ${step >= 1 ? "isDone" : ""}`
+          )}
+        >
           Searching 400+ flights
         </p>
         <p
-          className={`${step > 1 && step < 3 && "isActive"} ${
-            step >= 2 && "isDone"
-          }`}
+          className={prettifyClassNames(
+            `${step === 1 ? "isActive" : ""} ${step >= 2 ? "isDone" : ""}`
+          )}
         >
           Attaching company rules
         </p>
         <p
-          className={`${step > 2 && step !== 3 && "isActive"} ${
-            step === 3 && "isDone"
-          }`}
+          className={prettifyClassNames(
+            `${step === 2 ? "isActive" : ""} ${step === 3 ? "isDone" : ""}`
+          )}
         >
           Serving best results
         </p>
