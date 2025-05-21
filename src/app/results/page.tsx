@@ -3,7 +3,6 @@ import ResultLoader from "../components/ui/Result.LoaderSec";
 import SearchHeader from "../components/Search.Header";
 import { Suspense } from "react";
 import DelayedFlightResults from "../components/ui/DelayedFlightResult";
-import ResultDeterminateLoader from "../components/Result.DeterminateLoader";
 
 export const metadata: Metadata = {
   title: "Results",
@@ -13,7 +12,9 @@ export const metadata: Metadata = {
 const page = () => {
   return (
     <div>
-      <SearchHeader />
+      <Suspense>
+        <SearchHeader />
+      </Suspense>
       <main>
         <Suspense fallback={<ResultLoader />}>
           {/* /* @ts-expect-error Async Server Component */}
